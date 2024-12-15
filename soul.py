@@ -50,7 +50,7 @@ def read_free_users():
 allowed_user_ids = read_users()
 
 # Function to log command to the file
-def log_command(user_id, target, port, time):
+def log_command(user_id, target, port):
     user_info = bot.get_chat(user_id)
     if user_info.username:
         username = "@" + user_info.username
@@ -58,7 +58,7 @@ def log_command(user_id, target, port, time):
         username = f"UserID: {user_id}"
     
     with open(LOG_FILE, "a") as file:  # Open in "append" mode
-        file.write(f"Username: {username}\nTarget: {target}\nPort: {port}\nTime: {time}\n\n")
+        file.write(f"Username: {username}\nTarget: {target}\nPort: {port}\n\n")
 
 
 # Function to clear logs
@@ -75,14 +75,12 @@ def clear_logs():
     return response
 
 # Function to record command logs
-def record_command_logs(user_id, command, target=None, port=None, time=None):
-    log_entry = f"UserID: {user_id} | Time: {datetime.datetime.now()} | Command: {command}"
+def record_command_logs(user_id, command, target=None, port=None):
+    log_entry = f"UserID: {user_id} | Command: {command}"
     if target:
         log_entry += f" | Target: {target}"
     if port:
         log_entry += f" | Port: {port}"
-    if time:
-        log_entry += f" | Time: {time}"
     
     with open(LOG_FILE, "a") as file:
         file.write(log_entry + "\n")
@@ -205,17 +203,17 @@ def show_user_id(message):
     bot.reply_to(message, response)
 
 # Function to handle the reply when free users run the /bgmi command
-def start_attack_reply(message, target, port, time):
+def start_attack_reply(message, target, port):
     user_info = message.from_user
     username = user_info.username if user_info.username else user_info.first_name
     
-    response = f"{username}, Attack Started.\n\nTarget: {target}\nPort: {port}\nTime: {time} Seconds\nGame: BGMI"
+    response = f"{username}, Attack Started.\n\nTarget: {target}\nPort: {port}\nGame: BGMI"
     bot.reply_to(message, response)
 
 # Dictionary to store the last time each user ran the /bgmi command
 bgmi_cooldown = {}
 
-COOLDOWN_TIME =0
+
 
 # Handler for /bgmi command
 @bot.message_handler(commands=['bgmi'])
