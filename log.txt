@@ -1,0 +1,18 @@
+UserID: 1350528516 | Time: 2024-12-15 07:32:22.358317 | Command: /bgmi | Target: 4.247.17.228 | Port: 10821 | Time: 3
+Username: @xodivorce
+Target: 4.247.17.228
+Port: 10821
+Time: 3
+
+UserID: 1350528516 | Time: 2024-12-15 07:32:58.457669 | Command: /bgmi | Target: 4.247.17.228 | Port: 10821 | Time: 300
+Username: @xodivorce
+Target: 4.247.17.228
+Port: 10821
+Time: 300
+
+UserID: 1350528516 | Time: 2024-12-15 07:33:56.781003 | Command: /bgmi | Target: 4.247.17.228 | Port: 10821 | Time: 300
+Username: @xodivorce
+Target: 4.247.17.228
+Port: 10821
+Time: 300
+

